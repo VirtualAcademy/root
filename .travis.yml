@@ -118,6 +118,7 @@ script:
         || [ "$RESULT_OUTPUT" == "clang-format did not modify any files" ] ; then
 
         echo "clang-format passed."
+        echo "First test successful, Cho."
         exit 0
       else
         echo "clang-format failed."
@@ -125,6 +126,7 @@ script:
         echo -e "\tgit checkout $TRAVIS_BRANCH"
         echo -e "\tgit-clang-format --commit $BASE_COMMIT --diff --binary $(which clang-format)"
         echo "$RESULT_OUTPUT"
+        echo "First test unsuccessful, Cho."
         exit 1
       fi
     elif [[ $TOOL == clang-tidy* ]]; then
@@ -145,12 +147,14 @@ script:
                        -checks=$CLANG_TIDY_CHECKS)"
       if [[ $? -eq 0 ]]; then
         echo "$TOOL passed."
+        echo "Second test successful, Cho."
         exit 0
       else
         echo "To reproduce it locally please run"
         echo -e "\tgit checkout $TRAVIS_BRANCH"
         echo -e "Command: git diff -U0 $TRAVIS_BRANCH..origin/master | clang-tidy-diff.py -p1 -clang-tidy-binary \$(which clang-tidy) -checks=$CLANG_TIDY_CHECKS"
         echo "$RESULT_OUTPUT"
+        echo "Second test unsuccessful, Cho."
         exit 1
       fi
     fi
@@ -166,4 +170,5 @@ script:
 on_failure:
   -|
   echo "Showing current directory contents"
+  echo "This is Cho's test just playing around with ROOT"
   ls -la
