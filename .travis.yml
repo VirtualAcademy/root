@@ -63,6 +63,10 @@ matrix:
           packages: ['clang-3.9', 'clang-tidy-3.9', 'libstdc++-6-dev']
       compiler: clang
       
+    - os: linux
+      env: TOOL=base_build
+      compiler: clang
+      
   allow_failures:
     # clang-tidy-modernize is still experimental
     - env: TOOL=clang-tidy-modernize
@@ -106,6 +110,15 @@ script:
   fi
 - echo -en 'travis_fold:end:install.headers\\r'
 
+- |
+  # We need to put in place all relevant headers before running clang-tidy.
+  if [[ $TOOL == base_build ]]; then
+    mkdir ../build
+    cd ../build
+    echo Note the cmake options
+    cmake -DCMAKE_BUILD_TYPE=Debug -Dall=On -Dtesting=On -Dx11=Off -Dtesting=ON -Droottest=ON ../root    
+    cmake --build
+    ctest -j8
 - |
   if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     if [[ $TOOL == 'clang-format' ]]; then
