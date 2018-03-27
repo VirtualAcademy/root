@@ -62,21 +62,6 @@ matrix:
           sources: *sources
           packages: ['clang-3.9', 'clang-tidy-3.9', 'libstdc++-6-dev']
       compiler: clang
-
-    - os: linux
-    - |
-      env: TOOL=minuit2-standalone
-      compiler: clang
-      install: cmake --version
-      script: 
-      mkdir ../RootDevelopment
-      cd ../RootDevelopment
-      git clone https://github.com/root-project/root
-      git clone https://github.com/root-project/roottest
-      mkdir build
-      cd build
-      echo Note the cmake options
-      cmake -DCMAKE_BUILD_TYPE=Debug -Dtesting=ON -Droottest=ON ../root
       
   allow_failures:
     # clang-tidy-modernize is still experimental
